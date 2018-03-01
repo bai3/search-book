@@ -4,7 +4,9 @@
         <el-header>
           <el-row>
             <el-col :span="24" center="true">
-              
+              <router-link to="/index" id="title">
+                小白搜书
+              </router-link>
               <el-autocomplete
                 placeholder="书名、作者、ISBN"
                 prefix-icon="el-icon-search"
@@ -19,6 +21,9 @@
 
           </router-view>
         </el-main>
+        <el-footer>
+          Copyright © By 白植熙
+       </el-footer>
         
       </el-container>
   </div>
@@ -41,6 +46,12 @@ export default {
 }
 </script>
 <style lang="less">
+@media screen and (min-width: 980px) {
+  #app{
+    width: 960px;
+    margin: 0 auto;
+  }
+}
 body{
   margin: 0;
   #app {
@@ -51,12 +62,29 @@ body{
   color: #2c3e50;
   }
   .el-header{
+    text-align: left;
     background-color: #edf4ed;
     padding: 10px 20px;
-    .router-link{
-      font-weight: bold;
-      margin-right:10px;
+    .el-row{
+      margin: 0 auto;
+      overflow: visible !important;
     }
+    #title{
+      text-decoration: none;
+      padding-right: 10px;
+      font-family:"Microsoft Yahei";
+      font-weight: bold;
+      color: #7f8c8d
+    }
+  }
+  .el-footer{
+    background-color: #edf4ed;
+    font-size: 16px;
+    color: #7f8c8d;
+    line-height: 60px;
+  }
+  .el-main{
+    padding: 8px 0;
   }
 }
 
