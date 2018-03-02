@@ -2,46 +2,28 @@
     <el-row>
         <el-col :span="16" id="carousel">
             <h2>新书速递</h2>
-            <el-carousel indicator-position="outside" interval="5000"  v-loading="loading">
-                <el-carousel-item v-for="item in 4" :key="item" >
+            <el-carousel indicator-position="outside" :interval="5000">
+                <el-carousel-item v-for="item in latestbooks"  :key="item.id">
                     <ul>
-                        <li style="float: left" v-for="item2 in 10">
+                        <li style="float: left" v-for="item2 in item" >
                             <div class="cover">
-                                <el-tooltip  enterable="false" effect='light' content="Top center" placement="right" offset="1">
-                                <div slot="content" >
-                                    <h3 class="title" >
-                                        啊！这样就能辞职了
-                                    </h3>
-                                    <p>
-                                        <span class="author">
-                                            [日] 安倍夜郎
-                                        </span>
-                                        /
-                                        <span class="year">
-                                            2018-2
-                                        </span>
-                                        /
-                                        <span class="publisher">
-                                            新星出版社
-                                        </span>
-                                    </p>
-                                    <p class="abstract" >
-                                    成为漫画家前，我是一家广告公司没人注意的导演。那时并不顺利，真说辞职，又不知道能做什么。开店之类的干不来，英语不会，也没考过驾照……唯一的乐趣就是画漫画。我只要一有空就画个不停，画着画着心想，也许可以辞职做一名职业漫画家吧。
-                                    在公司工作的第十五年，我画了一百张四格漫画拿去投稿，心想获奖后就可以辞职了，不料根本没能入选。后来我又画了一百张三格...
-                                    </p>
+                                <el-tooltip  effect='light'  placement="right" >
+                                <div slot="content" class="detail" v-html="item2.detail">
                                 </div>
-                                <a href="">
-                                <img src="https://img3.doubanio.com/lpic/s29669694.jpg"width="92px" height="137px">
-                                </a>
+                                <router-link to="/subject" :title="item2.name">
+                                      <img :src="item2.image_url"width="92px" height="137px">
+                                </router-link>
                                 </el-tooltip>
                             </div>
                             <div class="name">
-                                <a href="">这样就能辞职了</a>
+                                <router-link to="/subject" :title="item2.name">
+                                    {{item2.name|wordlimit}}
+                                </router-link>
                             </div>
-                            <div class="writer">安培野狼</div>
+                            <div class="writer">
+                                {{item2.author|blank}}
+                            </div>
                         </li>
-                        
-
                     </ul>
                 </el-carousel-item>
             </el-carousel>
@@ -61,7 +43,40 @@
 </template>
 <script>
   export default {
-  
+    data() {
+        let latestbooks = []
+        let group = []
+        let key = 0
+        return {
+            latestbooks,
+            key
+        }
+    },
+    created: function() {
+        this.$http("http://www.bai3.xyz/api/getlatestbook/?format=json")
+            .then(res => {
+            for(var i=0;i<40;i+=10){
+            this.latestbooks.push(res.data.slice(i,i+10));
+            } 
+            console.log(this.latestbooks)})
+    },
+    filters:{
+        wordlimit: function(word){
+            if(word.length <= 7){
+                return word
+            }else{
+                return word.slice(0,6)+'...'
+            }
+        },
+        blank: function(word){
+            word = word.replace(/(^\s*)|(\s*$)/g, "");
+            if(word.length <=9){
+                return word
+            }else{
+                return word.slice(0,9)+'...'
+            }
+        }
+    }
   }
 </script>
 <style lang="less">
@@ -95,13 +110,19 @@ a:link, a:visited, a:focus {
             vertical-align: top;
             font-size: 12px;
             margin: 0 25px 15px 0;
+            
         }
     }
 }
-.abstract{
-     width: 200px;
-}
 #tags{
     height: auto;
+}
+.detail{
+    width: 200px;
+    h4{
+        font: 15px Arial, Helvetica, sans-serif;
+        color: #666;
+        font-weight: bold
+    }
 }
 </style>

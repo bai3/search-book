@@ -10,7 +10,7 @@
               <el-autocomplete
                 placeholder="书名、作者、ISBN"
                 prefix-icon="el-icon-search"
-                v-model="key"
+                :trigger-on-focus="false"
               >
               </el-autocomplete>
             </el-col>
@@ -35,6 +35,12 @@ import subject from './components/subject'
 import top250 from './components/top250'
 export default {
   /* eslint-disable */
+  data(){
+    let keyword = ''
+    return{
+      keyword
+    }
+  },
   name: 'app',
   components: {
     index,

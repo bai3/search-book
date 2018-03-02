@@ -25,7 +25,6 @@ const top250 = (resolve) => {
   })
 }
 export default new Router({
-  mode: 'history',
   routes: [
     {
       path: '/',
