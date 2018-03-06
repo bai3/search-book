@@ -25,26 +25,33 @@ const top250 = (resolve) => {
   })
 }
 export default new Router({
+  // mode: 'history',
   routes: [
     {
       path: '/',
-      redirect: '/index'
+      redirect: '/index',
+      name: 'index'
     },
     {
       path: '/index',
-      component: index
+      component: index,
+      name: 'index'
+      
     },
     {
       path: '/tag',
-      component: tag
+      component: tag,
+      name: 'tag'
     },
     {
       path: '/subject',
-      component: subject
+      component: subject,
+      name: 'subject'
     },
     {
       path: '/top250',
-      component: top250
+      component: top250,
+      name: 'top250'
     }
   ]
 })

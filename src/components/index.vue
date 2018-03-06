@@ -68,7 +68,8 @@
       return {
         latestbooks,
         key,
-        top250
+        top250,
+        loading: true
       }
     },
     created: function () {
@@ -79,12 +80,11 @@
           }
           console.log(this.latestbooks)
         });
-        this.$http("http://www.bai3.xyz/spride/api/top250?page=1")
+        this.$http("http://www.bai3.xyz/spider/api/top250?page=1")
         .then(res => {
             console.log(res.data.slice(0,2))
             this.top250 = res.data.slice(0,2)
         })
-    
     },
     filters: {
       wordlimit: function (word) {
