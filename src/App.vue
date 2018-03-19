@@ -93,5 +93,34 @@ body{
     padding: 8px 0;
   }
 }
+ul, li{
+  list-style: none;
+  padding: 0
+}
+a {
+    cursor: pointer
+}
+
+a:link {
+    color: #37a;
+    text-decoration: none
+}
+
+a:visited {
+    color: #669;
+    text-decoration: none
+}
+
+a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+a:active {
+    color: #fff;
+    text-decoration: none;
+    background: #f93
+}
+
 
 </style>
