@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+
 Vue.use(Router)
 
 const index = (resolve) => {
@@ -44,7 +45,7 @@ export default new Router({
       name: 'tag'
     },
     {
-      path: '/subject',
+      path: '/subject/:id',
       component: subject,
       name: 'subject'
     },

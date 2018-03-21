@@ -8,13 +8,16 @@ import 'element-ui/lib/index.js'
 import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-
+import VueResource from 'vue-resource'
+import VueJsonp from 'vue-jsonp'
 
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI, axios, VueAxios)
-Vue.prototype.$http = axios
+Vue.use(VueJsonp)
+Vue.prototype.$axios = axios
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

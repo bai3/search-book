@@ -3,22 +3,29 @@
     <h3 >
       豆瓣图书Top&nbsp;250
     </h3>
-    <div class="main" style="float:left">
+    <div style="height:500px" v-if="loading">
+        <i class="el-icon-loading"></i>
+    </div>
+    <div class="main" style="float:left" v-if="!loading">
       <ul>
         <li v-for="(item,key) in top250">
           <div class="pic">
+            <router-link :to="'/subject/'+item.fields.book_id" :title="item.fields.name">
             <img :src="item.fields.image_url" width="90px">
+            </router-link>
           </div>
           <div class="doc">
             <p>
-              <a href="">{{item.fields.name}}</a>
+              <router-link :to="'/subject/'+item.fields.book_id" :title="item.fields.name">
+              {{item.fields.name}}
+              </router-link>
             </p>
             <p>{{item.fields.detail}}</p>
             <p>
               <el-rate v-model="stars[key]" disabled show-score  text-color="#ff9900" :score-template="item.fields.star">
               </el-rate>({{item.fields.comment}}人评价)
             </p>
-            <p>
+            <p v-if="item.fields.dictum != '无'">
                 <&nbsp;{{item.fields.dictum}}&nbsp;>
             </p>
           </div>
@@ -32,6 +39,7 @@
     </div>
   </div>
 
+
 </template>
 <script>
   export default {
@@ -41,29 +49,33 @@
       return {
         top250,
         page,
-        stars
+        stars,
+        loading: true,
       }
     },
     created: function () {
-      this.$http("http://www.bai3.xyz/spider/api/top250?page=" + this.page)
+      this.$axios("http://www.bai3.xyz/spider/api/top250?page=" + this.page)
         .then(res => {
           this.top250 = res.data;
           this.stars = []
           res.data.forEach(function(element) {
                 this.stars.push(parseFloat(element.fields.star/2))
           }, this);
+          this.loading = false;
         })
     },
     methods: {
       getlist: function (e) {
-        this.stars = []
-        this.page = e
-        this.$http("http://www.bai3.xyz/spider/api/top250?page=" + this.page)
+        this.stars = [];
+        this.page = e;
+        this.loading = true;
+        this.$axios("http://www.bai3.xyz/spider/api/top250?page=" + this.page)
           .then(res => {
             this.top250 = res.data;
             res.data.forEach(function(element) {
                 this.stars.push(parseFloat(element.fields.star/2))
             }, this);
+            this.loading = false
             scrollTo(0,0)
           })
       }
@@ -81,7 +93,13 @@
     overflow: hidden;
     clear: both;
     margin-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px #ddd dashed;
+    &:last-child{
+      border-bottom: none;
+    }
   }
+
 
   .main img {
     float: left;

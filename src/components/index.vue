@@ -10,13 +10,13 @@
                 <el-tooltip effect='light' placement="right">
                   <div slot="content" class="detail" v-html="item2.detail">
                   </div>
-                  <router-link to="/subject" :title="item2.name">
+                  <router-link :to="'/subject/'+item2.book_id" :title="item2.name">
                     <img :src="item2.image_url" width="92px" height="137px">
                   </router-link>
                 </el-tooltip>
               </div>
               <div class="name">
-                <router-link to="/subject" :title="item2.name">
+                <router-link :to="'/subject/'+item2.book_id" :title="item2.name">
                   {{item2.name|wordlimit}}
                 </router-link>
               </div>
@@ -44,12 +44,12 @@
         <ul >
           <li v-for="item in top250">
             <div class="cover">
-                <router-link to="/subject" :title="item.fi">
+                <router-link :to="'/subject/'+item.fields.book_id" :title="item.fi">
                     <img :src="item.fields.image_url" width="92px" height="137px">
                 </router-link>
             </div>
             <div class="name">
-                <router-link to="/subject">
+                <router-link :to="'/subject/2'+item.fields.book_id">
                 {{item.fields.name|wordlimit}}
                 </router-link>
             </div>
@@ -73,16 +73,14 @@
       }
     },
     created: function () {
-      this.$http("http://www.bai3.xyz/api/getlatestbook/?format=json")
+      this.$axios("http://www.bai3.xyz/api/getlatestbook/?format=json")
         .then(res => {
           for (var i = 0; i < 40; i += 10) {
             this.latestbooks.push(res.data.slice(i, i + 10));
           }
-          console.log(this.latestbooks)
         });
-        this.$http("http://www.bai3.xyz/spider/api/top250?page=1")
+        this.$axios("http://www.bai3.xyz/spider/api/top250?page=1")
         .then(res => {
-            console.log(res.data.slice(0,2))
             this.top250 = res.data.slice(0,2)
         })
     },
