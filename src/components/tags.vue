@@ -1,5 +1,5 @@
 <template>
   <div>
-      {{this.$route.params.tag}}
+      标签列表页
   </div>
 </template>

@@ -30,11 +30,42 @@
     </el-col>
     <el-col :span="7" :push='1' id="tags">
       <h2>热门标签
-        <router-link to="/tag">
+        <router-link to="/tags">
           更多>>
         </router-link>
       </h2>
-      <div style="height:200px">2</div>
+      <div style="height:200px" class="tags">
+        <div class="tag">
+          <h3>文学</h3>
+          <ul class="clearfloat">
+            <li v-for="item in wenxue">
+              <router-link :to="'/tag/'+item.name">
+              {{item.name}}
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/tag/#文学" class="more">
+              更多»
+              </router-link>
+            </li>
+          </ul>
+        </div>
+        <div class="tag">
+          <h3>流行</h3>
+          <ul class="clearfloat">
+            <li v-for="item in liuxing">
+              <router-link :to="'/tag/'+item.name">
+              {{item.name}}
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/tag/#流行" class="more">
+              更多»
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
       <h2>豆瓣top250
         <router-link to="/top250">
           更多>>
@@ -49,7 +80,7 @@
                 </router-link>
             </div>
             <div class="name">
-                <router-link :to="'/subject/2'+item.fields.book_id">
+                <router-link :to="'/subject/'+item.fields.book_id">
                 {{item.fields.name|wordlimit}}
                 </router-link>
             </div>
@@ -69,7 +100,25 @@
         latestbooks,
         key,
         top250,
-        loading: true
+        loading: true,
+        wenxue:[
+          {name: '小说'},
+          {name: '随笔'},
+          {name: '日本文学'},
+          {name: '散文'},
+          {name: '诗歌'},
+          {name: '童话'},
+          {name: '名著'}
+        ],
+        liuxing:[
+          {name: '漫画'},
+          {name: '推理'},
+          {name: '绘本'},
+          {name: '青春'},
+          {name: '科幻'},
+          {name: '言情'},
+          {name: '奇幻'}
+        ],
       }
     },
     created: function () {
@@ -105,6 +154,8 @@
 
 </script>
 <style lang="less">
+.clearfloat:after{display:block;clear:both;content:"";visibility:hidden;height:0} 
+.clearfloat{zoom:1} 
   a {
     text-decoration: none
   }
@@ -140,7 +191,9 @@
         vertical-align: top;
         font-size: 12px;
         margin: 0 25px 15px 0;
-
+        &:nth-child(5n+1){
+          margin-left: 25px;
+        }
       }
     }
   }
@@ -174,5 +227,34 @@
       }
     }
   }
+.tag{
+  h3{
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    margin-bottom: 0px;
+  }
+  ul{
+    margin-top: 6px;
+    li{
+      float: left;
+      a{
+        width: auto;
+        word-break: keep-all;
+        white-space: nowrap;
+        background-color: #f5f5f5;
+        color: #37A;
+        font-size: 13px;
+        padding: 2px 11px 0;
+        display: inline-block;
+        margin: 0 3px 5px 0;
+        line-height: 20px;
+      }
+      .more{
+        color: #aaa;
+      }
+    }
+  }
 
+}
 </style>

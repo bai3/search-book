@@ -75,8 +75,8 @@
             res.data.forEach(function(element) {
                 this.stars.push(parseFloat(element.fields.star/2))
             }, this);
-            this.loading = false
             scrollTo(0,0)
+            this.loading = false
           })
       }
     }

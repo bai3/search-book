@@ -9,17 +9,18 @@
       </h1>
       <div class="main">
         <div class="img" >
-          <img :src="info.image" alt="图片" width="135px">
+          <img :src="info.images.large" alt="图片" width="135px">
         </div>
         <div class="info">
           <p>作者：{{author}}</p>
-          <p>出版社：{{info.publisher}}</p>
+          <p v-if="info.subtitle">副标题: {{info.subtitle}}</p>
+          <p v-if="info.publisher">出版社：{{info.publisher}}</p>
           <p v-if="info.alt_title">原作名:{{info.alt_title}}</p>
           <p v-if="translator.length">译者：{{translator.join(',')}}</p>
           <p>出版年：{{info.pubdate}}</p>
           <p>页数：{{info.pages}}页</p>
           <p v-if="info.price">定价：{{info.price}}</p>
-          <p>装帧：{{info.binding}}</p>
+          <p v-if="info.binding">装帧：{{info.binding}}</p>
           <p v-if="info.series">丛书：{{info.series.title}}</p>
           <p>ISBN：{{info.isbn13}}</p>
         </div>
@@ -53,6 +54,17 @@
         loading: true,
       }
     },
+    methods: {
+      getinfo(){
+        this.$jsonp('https://api.douban.com/v2/book/'+this.$route.params.id,{})
+        .then(res => {
+          this.info = res
+          this.translator =  res.translator;
+          this.author = res.author.join(',');  
+          this.loading = false;   
+      })
+      }
+    },
     created: function () {
       // this.$axios("/book/"+this.$route.params.id)
       //   .then(res => {
@@ -60,13 +72,10 @@
       //     this.translator =  res.data.translator;
       //     this.author = res.data.author.join(',');
       // })
-      this.$jsonp('https://api.douban.com/v2/book/'+this.$route.params.id,{})
-      .then(res => {
-          this.info = res
-          this.translator =  res.translator;
-          this.author = res.author.join(',');  
-          this.loading = false;   
-      })
+      this.getinfo()
+    },
+    watch:{
+      '$route': 'getinfo'
     }
   }
 </script>

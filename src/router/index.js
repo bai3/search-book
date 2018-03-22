@@ -15,6 +15,11 @@ const tag = (resolve) => {
     resolve(module)
   })
 }
+const tags = (resolve) => {
+  import('../components/tags').then((module) =>{
+    resolve(module)
+  })
+}
 const subject = (resolve) => {
   import('../components/subject').then((module) =>{
     resolve(module)
@@ -40,7 +45,12 @@ export default new Router({
       
     },
     {
-      path: '/tag',
+      path: '/tags',
+      component: tags,
+      name: 'tags'
+    },
+    {
+      path: '/tag/:tag',
       component: tag,
       name: 'tag'
     },

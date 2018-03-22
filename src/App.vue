@@ -11,6 +11,8 @@
                 placeholder="书名、作者、ISBN"
                 prefix-icon="el-icon-search"
                 :trigger-on-focus="false"
+                :fetch-suggestions="querySearchAsync"
+                @select="handleSelect"
               >
               </el-autocomplete>
             </el-col>
@@ -30,24 +32,48 @@
 </template>
 <script>
 import index from './components/index'
-import tag from './components/tag'
+import tags from './components/tags'
 import subject from './components/subject'
 import top250 from './components/top250'
 export default {
   /* eslint-disable */
   data(){
-    let keyword = ''
     return{
-      keyword
+      info: [],
+      state4: '',
+      timeout: null
+
     }
+  },
+  methods: {
+    querySearchAsync(queryString, cb) {
+      let url = 'https://api.douban.com/v2/book/search?q='+queryString+'&count=5';
+      this.$jsonp(url,{})
+      .then(res => {
+          for(let i of res.books){
+            i.value = i.title+' / '+i.author
+          }
+          this.info = res.books
+          cb(this.info)
+        })
+      },
+      // createStateFilter(queryString) {
+      //   return (state) => {
+      //     return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      //   };
+      // },
+      handleSelect(item) {
+        this.$router.push({path: '/subject/'+item.id})
+      }
   },
   name: 'app',
   components: {
     index,
     subject,
-    tag,
+    tags,
     top250
-  }
+  },
+
  
 }
 </script>
