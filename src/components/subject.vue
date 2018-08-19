@@ -9,7 +9,7 @@
       </h1>
       <div class="main">
         <div class="img" >
-          <img :src="info.images.large" alt="图片" width="135px">
+          <img :src="'https://images.weserv.nl/?url='+info.images.large.slice(8)" alt="图片" width="135px">
         </div>
         <div class="info">
           <p>作者：{{author}}</p>
@@ -17,12 +17,12 @@
           <p v-if="info.publisher">出版社：{{info.publisher}}</p>
           <p v-if="info.alt_title">原作名:{{info.alt_title}}</p>
           <p v-if="translator.length">译者：{{translator.join(',')}}</p>
-          <p>出版年：{{info.pubdate}}</p>
-          <p>页数：{{info.pages}}页</p>
+          <p v-if="info.pubdate">出版年：{{info.pubdate}}</p>
+          <p v-if="info.pages">页数：{{info.pages}}页</p>
           <p v-if="info.price">定价：{{info.price}}</p>
           <p v-if="info.binding">装帧：{{info.binding}}</p>
           <p v-if="info.series">丛书：{{info.series.title}}</p>
-          <p>ISBN：{{info.isbn13}}</p>
+          <p v-if="info.isbn13">ISBN：{{info.isbn13}}</p>
         </div>
       </div>
       <div class="intro">
@@ -63,6 +63,10 @@
           this.author = res.author.join(',');  
           this.loading = false;   
       })
+      },
+      refresh(){
+        this.loading = true;
+        this.getinfo()
       }
     },
     created: function () {
@@ -75,7 +79,7 @@
       this.getinfo()
     },
     watch:{
-      '$route': 'getinfo'
+      '$route': 'refresh'
     }
   }
 </script>

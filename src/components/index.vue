@@ -11,7 +11,7 @@
                   <div slot="content" class="detail" v-html="item2.detail">
                   </div>
                   <router-link :to="'/subject/'+item2.book_id" :title="item2.name">
-                    <img :src="item2.image_url" width="92px" height="137px">
+                    <img :src="'https://images.weserv.nl/?url='+item2.image_url.slice(8)" width="92px" height="137px">
                   </router-link>
                 </el-tooltip>
               </div>
@@ -44,7 +44,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="/tag/#文学" class="more">
+              <router-link to="/tags/#文学" class="more">
               更多»
               </router-link>
             </li>
@@ -59,7 +59,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="/tag/#流行" class="more">
+              <router-link to="/tags/#流行" class="more">
               更多»
               </router-link>
             </li>
@@ -135,18 +135,18 @@
     },
     filters: {
       wordlimit: function (word) {
-        if (word.length <= 7) {
+        if (word.length <= 6) {
           return word
         } else {
-          return word.slice(0, 6) + '...'
+          return word.slice(0, 4) + '...'
         }
       },
       blank: function (word) {
         word = word.replace(/(^\s*)|(\s*$)/g, "");
-        if (word.length <= 9) {
+        if (word.length <= 7) {
           return word
         } else {
-          return word.slice(0, 9) + '...'
+          return word.slice(0, 7) + '...'
         }
       }
     }

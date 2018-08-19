@@ -13,6 +13,7 @@
                 :trigger-on-focus="false"
                 :fetch-suggestions="querySearchAsync"
                 @select="handleSelect"
+                v-model="state4"
               >
               </el-autocomplete>
             </el-col>
@@ -57,12 +58,13 @@ export default {
           cb(this.info)
         })
       },
-      // createStateFilter(queryString) {
-      //   return (state) => {
-      //     return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-      //   };
-      // },
+      createStateFilter(queryString) {
+        return (state) => {
+          return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
+      },
       handleSelect(item) {
+
         this.$router.push({path: '/subject/'+item.id})
       }
   },
